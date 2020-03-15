@@ -1,9 +1,9 @@
 package com.rainsunset.demo.service.request;
 
-import com.cmbi.demo.service.request.base.BaseRequest;
+import com.rainsunset.common.bean.BaseRequest;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
-import java.util.Date;
 
  /**
   * @Description: 查询Record 表列表请求体
@@ -16,13 +16,13 @@ import java.util.Date;
 @ToString(callSuper = true)
 public class RecordListReqDTO extends BaseRequest {
 
-    /** 记录Id */
+    @ApiModelProperty(value = "记录Id")
     private Integer  recordId;
 
-    /** 用户Id */
+    @ApiModelProperty(value = "用户Id")
     private String userId;
 
-    /** 记录值 */
+    @ApiModelProperty(value = "记录值")
     private Integer num;
 
 }

@@ -1,11 +1,10 @@
 package com.rainsunset.demo.service.request;
 
-import com.cmbi.demo.service.request.base.BaseRequest;
+import com.rainsunset.common.bean.BaseRequest;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
-
-import java.util.Date;
 
  /**
   * @Description: Record 表 Model
@@ -18,17 +17,20 @@ import java.util.Date;
 @ToString(callSuper = true)
 public class RecordReqDTO extends BaseRequest {
 
-    /** 记录Id */
+    @ApiModelProperty(value = "记录Id")
     private Integer  recordId;
 
-    /** 用户Id */
+    @ApiModelProperty(value = "用户Id")
     @NotBlank(message = "用户Id不能为空")
     private String userId;
 
-    /** 记录值 */
+    @ApiModelProperty(value = "记录值")
     @NotBlank(message = "记录值不能为空")
     private Integer num;
 
+    @ApiModelProperty(value = "更新人 必传")
+    @NotBlank(message = "更新人不能为空")
+    private String updatedBy;
 }
 
 

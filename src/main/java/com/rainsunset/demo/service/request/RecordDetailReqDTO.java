@@ -1,6 +1,7 @@
 package com.rainsunset.demo.service.request;
 
-import com.cmbi.demo.service.request.base.BaseRequest;
+import com.rainsunset.common.bean.BaseRequest;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.ToString;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,7 +17,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @ToString(callSuper = true)
 public class RecordDetailReqDTO extends BaseRequest {
 
-    /** 记录Id */
+    @ApiModelProperty(value = "记录Id")
     @NotBlank(message = "记录Id不能为空")
     private Integer  recordId;
 

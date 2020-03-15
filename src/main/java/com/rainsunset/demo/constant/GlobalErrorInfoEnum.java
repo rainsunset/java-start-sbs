@@ -24,11 +24,15 @@ public enum GlobalErrorInfoEnum implements ErrorInfoInterface {
      * 500，内部错误
      */
 
-    // region 415000-415099
+    // region 412000-412099 通用业务逻辑条件异常
+    DEMOEC_412000("DEMOEC_412000", "查询对象不存在"),
+    // endregion
+
+    // region 415000-415099 请求参数非法
     DEMOEC_415000("DEMOEC_415000", "请求参数有误"),
     // endregion
 
-    // region 500000-500099
+    // region 500000-500099 内部错误
     DEMOEC_500000("DEMOEC_500000", "系统异常"),
     // endregion
 
@@ -41,12 +45,6 @@ public enum GlobalErrorInfoEnum implements ErrorInfoInterface {
     GlobalErrorInfoEnum(String code, String message) {
         this.code = code;
         this.message = message;
-    }
-
-    public void setMessage(String... msgs){
-        for(String msg:msgs){
-            this.message=this.message.replaceFirst("#",msg);
-        }
     }
 
     @Override

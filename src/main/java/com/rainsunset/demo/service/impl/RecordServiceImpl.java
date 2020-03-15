@@ -1,11 +1,11 @@
 package com.rainsunset.demo.service.impl;
 
+import com.rainsunset.common.bean.GlobalErrorInfoException;
 import com.rainsunset.common.bean.ResponseResult;
 import com.rainsunset.common.bean.RestResultGenerator;
-import com.rainsunset.demo.common.enums.ErrorCode;
-import com.rainsunset.common.bean.ServiceException;
-import com.rainsunset.demo.dal.model.Record;
+import com.rainsunset.demo.constant.GlobalErrorInfoEnum;
 import com.rainsunset.demo.dal.mapper.RecordMapper;
+import com.rainsunset.demo.dal.model.Record;
 import com.rainsunset.demo.service.RecordService;
 import com.rainsunset.demo.service.request.RecordBatchDelReqDTO;
 import com.rainsunset.demo.service.request.RecordDetailReqDTO;
@@ -16,11 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
  /**
@@ -61,7 +58,7 @@ public class RecordServiceImpl implements RecordService {
     public ResponseResult<RecordResDTO> getRecordDetail(RecordDetailReqDTO recordDetailReqDTO){
         Integer recordId= recordDetailReqDTO.getRecordId();
         if (null == recordId) {
-            throw new ServiceException(ErrorCode.REWD_415001);
+            throw new GlobalErrorInfoException(GlobalErrorInfoEnum.DEMOEC_412000);
         }
         Record record = recordMapper.getRecordDetail(recordId);
         RecordResDTO recordResDTO = recordDO2ResDTO(record);
@@ -72,7 +69,7 @@ public class RecordServiceImpl implements RecordService {
     public ResponseResult<Integer> addOrUpdateRecord(RecordReqDTO recordReqDTO){
         Record record = recordReqDTO2DO(recordReqDTO);
         if (null == record){
-            throw new ServiceException(ErrorCode.REWD_415001);
+            throw new GlobalErrorInfoException(GlobalErrorInfoEnum.DEMOEC_415000);
         }
         // 检查参数
         if(null == record.getRecordId()){
@@ -88,7 +85,7 @@ public class RecordServiceImpl implements RecordService {
     public ResponseResult<Integer> deleteRecords(RecordBatchDelReqDTO recordBatchDelReqDTO){
         Integer[] recordIds = recordBatchDelReqDTO.getRecordIds();
         if (null == recordIds || 0 == recordIds.length) {
-             throw new ServiceException(ErrorCode.REWD_415001);
+             throw new GlobalErrorInfoException(GlobalErrorInfoEnum.DEMOEC_415000);
          }
         String updatedBy = recordBatchDelReqDTO.getUpdatedBy();
         Integer rows = recordMapper.deleteRecords(recordIds,updatedBy);

@@ -1,5 +1,6 @@
 package com.rainsunset.demo.service.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,13 +20,13 @@ import java.util.Date;
 @NoArgsConstructor
 public class RecordResDTO implements Serializable {
 
-    /** 记录Id */
-    private Integer  recordId;
+    @ApiModelProperty(value = "记录Id")
+    private Integer recordId;
 
-    /** 用户Id */
+    @ApiModelProperty(value = "用户Id")
     private String userId;
 
-    /** 记录值 */
+    @ApiModelProperty(value = "记录值")
     private Integer num;
 
 }

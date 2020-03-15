@@ -6,6 +6,9 @@ import com.rainsunset.common.bean.ResponseResult;
 import com.rainsunset.common.bean.RestResultGenerator;
 import com.rainsunset.demo.constant.Constants;
 import com.rainsunset.demo.constant.GlobalErrorInfoEnum;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -77,20 +80,18 @@ public class ServiceAspect {
                 // 计时结束
                 clock.stop();
                 log.info("call [{}] [{}] [{}ms] [{}] [{}] RESPONSE:Result{}", clazzName, methodName,
-                        clock.getTotalTimeMillis(), "Success", response.getErrorcode(), response);
+                        clock.getTotalTimeMillis(), "Success", response.getErrorCode(), response);
             } catch (GlobalErrorInfoException e) {
-                response = RestResultGenerator.genResult(e.getErrorInfo());
-                response.setMessage(e.getMessage());
+                response = RestResultGenerator.genResult(e);
                 clock.stop();
                 log.info(ERROR_MSG, clazzName, methodName, clock.getTotalTimeMillis(), "Success",
-                        response.getErrorcode(), response, e.getCause());
+                        response.getErrorCode(), response, e.getCause());
             } catch (Throwable throwable) {
                 response = new ResponseResult();
                 response = RestResultGenerator.genResult(GlobalErrorInfoEnum.DEMOEC_500000);
-                response.setMessage(throwable.getMessage());
                 clock.stop();
                 log.error(ERROR_MSG, clazzName, methodName, clock.getTotalTimeMillis(), "Failure",
-                        response.getErrorcode(), response, throwable.getCause());
+                        response.getErrorCode(), response, throwable.getCause());
             }
         }
         return response;
