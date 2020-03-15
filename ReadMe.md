@@ -1,4 +1,5 @@
-## 数据库配置 ##
+## com.rainsunset 项目模板 ##
+### 数据库配置 ###
 **mysql**
 - pom
 ``` xml
@@ -55,7 +56,7 @@ username: unimax
 password: unimax
 ```
 
-## 事务配置 ##
+### 事务配置 ###
  方案1.
 [springboot mybatis 事务管理](https://www.cnblogs.com/kangoroo/p/8192503.html)
 在Application启动类上添加注解：@EnableTransactionManagement
@@ -65,7 +66,7 @@ password: unimax
 方案2.手动回滚，在需要回滚时增加：TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
 
 
-## 分页配置 ##
+### 需要查询总页码的分页配置 ###
 - pom
 ``` xml
 <!--分页-->
