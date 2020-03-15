@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
   * @Description: Record 表 Model
   * @Author: ligangwei
   * @Company rainsunset
-  * @CreateDate: 2020-03-15 15:21:01
+  * @CreateDate: 2020-03-15 17:58:48
   * @Version : 1.0-SNAPSHOT
   */
 @Data
@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class RecordReqDTO extends BaseRequest {
 
     @ApiModelProperty(value = "记录Id")
-    private Integer  recordId;
+    private Integer recordId;
 
     @ApiModelProperty(value = "用户Id")
     @NotBlank(message = "用户Id不能为空")
@@ -28,9 +28,6 @@ public class RecordReqDTO extends BaseRequest {
     @NotBlank(message = "记录值不能为空")
     private Integer num;
 
-    @ApiModelProperty(value = "更新人 必传")
-    @NotBlank(message = "更新人不能为空")
-    private String updatedBy;
 }
 
 

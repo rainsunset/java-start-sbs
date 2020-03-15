@@ -55,7 +55,7 @@
         UPDATE record
         SET `status` = 'UNVALID', updated_by = #{updatedBy}
         WHERE record_id IN
-        <foreach collection="recordIds" item="recordId" open="(" close=")" separator=",">
+        <foreach collection="recordIdArray" item="recordId" open="(" close=")" separator=",">
             #{recordId}
         </foreach>
     </update>

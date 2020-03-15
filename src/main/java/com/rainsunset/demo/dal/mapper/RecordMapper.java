@@ -10,7 +10,7 @@ import java.util.List;
  * @Description: Record 表 Mapper
  * @Author: ligangwei
  * @Company rainsunset
- * @CreateDate: 2020-03-15 15:21:01
+ * @CreateDate: 2020-03-15 17:58:48
  * @Version : 1.0-SNAPSHOT
  */
 @Repository
@@ -52,9 +52,9 @@ public interface RecordMapper {
     /**
      * 依据主键删除 Record 表 记录
      *
-     * @param recordIds
+     * @param recordIdArray
      * @param updatedBy
      */
-    public Integer deleteRecords(@Param("recordIds") Integer[] recordIds,
+    public Integer deleteRecords(@Param("recordIdArray") Integer[] recordIdArray,
                                             @Param("updatedBy") String updatedBy);
 }

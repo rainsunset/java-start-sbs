@@ -24,7 +24,7 @@ import java.util.List;
   * @Description: Record 表 接口实现
   * @Author: ligangwei
   * @Company rainsunset
-  * @CreateDate: 2020-03-15 15:21:01
+  * @CreateDate: 2020-03-15 17:58:48
   * @Version : 1.0-SNAPSHOT
   */
 @Service
@@ -83,12 +83,12 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public ResponseResult<Integer> deleteRecords(RecordBatchDelReqDTO recordBatchDelReqDTO){
-        Integer[] recordIds = recordBatchDelReqDTO.getRecordIds();
-        if (null == recordIds || 0 == recordIds.length) {
+        Integer[] recordIdArray = recordBatchDelReqDTO.getRecordIdArray();
+        if (null == recordIdArray || 0 == recordIdArray.length) {
              throw new GlobalErrorInfoException(GlobalErrorInfoEnum.DEMOEC_415000);
          }
         String updatedBy = recordBatchDelReqDTO.getUpdatedBy();
-        Integer rows = recordMapper.deleteRecords(recordIds,updatedBy);
+        Integer rows = recordMapper.deleteRecords(recordIdArray,updatedBy);
         return RestResultGenerator.genResult(rows);
     }
 

@@ -12,7 +12,7 @@ import java.util.Date;
   * @Description: Record 表 Model
   * @Author: ligangwei
   * @Company rainsunset
-  * @CreateDate: 2020-03-15 15:21:01
+  * @CreateDate: 2020-03-15 17:58:48
   * @Version : 1.0-SNAPSHOT
   */
 @Data
@@ -21,7 +21,7 @@ import java.util.Date;
 public class RecordResDTO implements Serializable {
 
     @ApiModelProperty(value = "记录Id")
-    private Integer recordId;
+    private Integer  recordId;
 
     @ApiModelProperty(value = "用户Id")
     private String userId;

@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
   * @Description: 批量删除Record 表请求体
   * @Author: ligangwei
   * @Company rainsunset
-  * @CreateDate: 2020-03-15 15:21:01
+  * @CreateDate: 2020-03-15 17:58:48
   * @Version : 1.0-SNAPSHOT
   */
 @Data
@@ -20,7 +20,7 @@ public class RecordBatchDelReqDTO extends BaseRequest {
 
     @ApiModelProperty(value = "待删除记录Id数组")
     @NotNull(message = "待删除记录Id数组不能为空")
-    private Integer[]  recordIds;
+    private Integer[] recordIdArray;
 
     @ApiModelProperty(value = "更新人 必传")
     @NotBlank(message = "更新人不能为空")
