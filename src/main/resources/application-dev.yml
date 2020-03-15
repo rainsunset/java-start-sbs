@@ -11,7 +11,7 @@ info:
   service-info: start
   api-doc: /swagger-ui.html
 swagger:
-  basePath: com.rainsunset
+  basePath: com.rainsunset.demo
   title: API信息
   description: API信息有疑问请联系相关开发人员
   contact: ligw
