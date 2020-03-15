@@ -1,4 +1,4 @@
-## com.rainsunset 项目模板 ##
+## com.rainsunset 项目Archetype脚手架 ##
 ### 数据库配置 ###
 **mysql**
 - pom
