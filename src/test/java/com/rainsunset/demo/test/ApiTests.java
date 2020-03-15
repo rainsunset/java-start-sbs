@@ -4,7 +4,7 @@
  */
 package com.rainsunset.demo.test;
 
-import com.rainsunset.demo.DemoApplication;
+import com.rainsunset.demo.Application;
 import com.rainsunset.demo.controller.apiController;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version $Id ApiTest.java, v 0.1 2018-07-09 17:24 ligw Exp $$
  */
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DemoApplication.class)
+@SpringBootTest(classes = Application.class)
 public class ApiTests {
 
     private MockMvc mockmvc;
