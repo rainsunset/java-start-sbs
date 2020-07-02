@@ -20,7 +20,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <druid.version>1.1.21</druid.version>
         <mybatis-sb-starter.version>2.1.1</mybatis-sb-starter.version>
-        <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
+        <mysql-connector-java.version>8.0.16</mysql-connector-java.version>
         <swagger2.version>2.9.2</swagger2.version>
         <joda-time.version>2.10</joda-time.version>
         <rainsunset.common.version>1.0.0-SNAPSHOT</rainsunset.common.version>
