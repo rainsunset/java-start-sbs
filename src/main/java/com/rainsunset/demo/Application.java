@@ -4,9 +4,11 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@EnableTransactionManagement
 @MapperScan("com.rainsunset.demo.dal.mapper")
 @SpringBootApplication(scanBasePackages = "com.rainsunset")
 @ImportResource("classpath:spring/spring-context.xml")

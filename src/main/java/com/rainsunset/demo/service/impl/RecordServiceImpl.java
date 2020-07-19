@@ -76,7 +76,6 @@ public class RecordServiceImpl implements RecordService {
         // 检查参数
         if(null == record.getRecordId()){
             recordMapper.fullInsertRecord(record);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
         } else {
             recordMapper.updateRecord(record);
         }
