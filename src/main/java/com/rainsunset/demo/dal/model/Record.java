@@ -1,8 +1,8 @@
 package com.rainsunset.demo.dal.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Description: Record 表 Model
@@ -12,16 +12,23 @@ import lombok.Data;
  * @Version : 1.0-SNAPSHOT
  */
 @Data
-@ApiModel(description = "Record 表")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Record {
 
-    @ApiModelProperty(value = "记录Id")
+    /**
+     * 记录Id
+     */
     private Integer recordId;
 
-    @ApiModelProperty(value = "用户Id")
+    /**
+     * 用户Id
+     */
     private String userId;
 
-    @ApiModelProperty(value = "记录值")
+    /**
+     * 记录值
+     */
     private Integer num;
 
 }

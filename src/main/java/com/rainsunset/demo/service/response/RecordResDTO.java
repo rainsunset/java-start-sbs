@@ -1,15 +1,15 @@
 package com.rainsunset.demo.service.response;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
  /**
-  * @Description: Record 表 Model
+  * @Description: Record表Model
   * @Author: ligangwei
   * @Company rainsunset
   * @CreateDate: 2020-03-15 17:58:48
@@ -18,6 +18,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ApiModel(description = "Record表Model")
 public class RecordResDTO implements Serializable {
 
     @ApiModelProperty(value = "记录Id")

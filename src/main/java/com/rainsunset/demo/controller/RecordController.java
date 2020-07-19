@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 
- /**
-  * @Description: Record 表 API
-  * @Author: ligangwei
-  * @Company rainsunset
-  * @CreateDate: 2020-03-15 17:58:48
-  * @Version : 1.0-SNAPSHOT
-  */
+/**
+ * @Description: Record 表 API
+ * @Author: ligangwei
+ * @Company rainsunset
+ * @CreateDate: 2020-03-15 17:58:48
+ * @Version : 1.0-SNAPSHOT
+ */
 @Api(tags = "Record 表接口")
 @RestController
 @RequestMapping("/demo/record")
-public class RecordController{
+public class RecordController {
 
     @Autowired
     private RecordService recordService;
@@ -82,6 +82,20 @@ public class RecordController{
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public ResponseResult<Integer> delete(@RequestBody RecordBatchDelReqDTO recordBatchDelReqDTO) {
         ResponseResult<Integer> response = recordService.deleteRecords(recordBatchDelReqDTO);
+        return response;
+    }
+
+    /**
+     * sql事务测试
+     *
+     * @param recordReqDTO 测试插入的对象
+     * @return response result
+     * @author : ligangwei / 2020-07-20
+     */
+    @ApiOperation("sql事务测试")
+    @RequestMapping(value = "/transactionTest", method = RequestMethod.POST)
+    public ResponseResult<Integer> transactionTest(@RequestBody RecordReqDTO recordReqDTO) {
+        ResponseResult<Integer> response = recordService.transactionTest(recordReqDTO);
         return response;
     }
 

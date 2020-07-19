@@ -1,14 +1,16 @@
 package com.rainsunset.demo.service.aop;
 
+import com.google.common.base.Throwables;
 import com.rainsunset.common.bean.BaseRequest;
-import com.rainsunset.common.bean.GlobalErrorInfoException;
+import com.rainsunset.common.bean.GlobalException;
+import com.rainsunset.common.bean.ResponseGenerator;
 import com.rainsunset.common.bean.ResponseResult;
-import com.rainsunset.common.bean.RestResultGenerator;
 import com.rainsunset.demo.constant.Constants;
 import com.rainsunset.demo.constant.GlobalErrorInfoEnum;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.hibernate.validator.constraints.NotBlank;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -19,6 +21,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -54,7 +61,7 @@ public class ServiceAspect {
      * @return the response result
      * @author : ligangwei / 2020-02-15
      */
-    @Around("execution(public * com.rainsunset.demo.service.impl.*.*(..))")
+    @Around("execution(public com.rainsunset.common.bean.ResponseResult com.rainsunset.demo.service.impl.*.*(..))")
     public ResponseResult serviceAccess(ProceedingJoinPoint joinPoint) {
         // 计时开始
         StopWatch clock = new StopWatch();
@@ -81,17 +88,16 @@ public class ServiceAspect {
                 clock.stop();
                 log.info("call [{}] [{}] [{}ms] [{}] [{}] RESPONSE:Result{}", clazzName, methodName,
                         clock.getTotalTimeMillis(), "Success", response.getErrorCode(), response);
-            } catch (GlobalErrorInfoException e) {
-                response = RestResultGenerator.genResult(e);
+            } catch (GlobalException e) {
+                response = ResponseGenerator.genResult(e);
                 clock.stop();
                 log.info(ERROR_MSG, clazzName, methodName, clock.getTotalTimeMillis(), "Success",
-                        response.getErrorCode(), response, e.getCause());
+                        response.getErrorCode(), response, e.getMessage());
             } catch (Throwable throwable) {
-                response = new ResponseResult();
-                response = RestResultGenerator.genResult(GlobalErrorInfoEnum.DEMOEC_500000);
+                response = ResponseGenerator.genResult(GlobalErrorInfoEnum.DEMOEC_500000);
                 clock.stop();
                 log.error(ERROR_MSG, clazzName, methodName, clock.getTotalTimeMillis(), "Failure",
-                        response.getErrorCode(), response, throwable.getCause());
+                        response.getErrorCode(), response, Throwables.getStackTraceAsString(throwable));
             }
         }
         return response;
@@ -103,15 +109,25 @@ public class ServiceAspect {
      * @param <T>    the type parameter
      * @param object 校验对象
      * @param groups the groups
-     * @throws GlobalErrorInfoException
      * @author : ligangwei / 2020-02-15
      */
     private <T> void validate(T object, Class<?>... groups) {
         Set<ConstraintViolation<T>> constraintViolations = localValidatorFactoryBean.validate(
                 object, groups);
-        if (constraintViolations != null && !constraintViolations.isEmpty()) {
-            ConstraintViolation c = constraintViolations.iterator().next();
-            throw new GlobalErrorInfoException(GlobalErrorInfoEnum.DEMOEC_415000);
+        if (!constraintViolations.isEmpty()) {
+            // 非空注解最优先抛出
+            List<Class<? extends Annotation>> firstAnnotationTypes = Arrays.asList(NotBlank.class, NotNull.class, NotEmpty.class);
+            Class<? extends Annotation> annotationType;
+            // 默认抛出第一个校验注解的异常
+            ConstraintViolation cv = constraintViolations.iterator().next();
+            for (ConstraintViolation c : constraintViolations) {
+                annotationType = c.getConstraintDescriptor().getAnnotation().annotationType();
+                // 如果异常列表有非空注解异常则首先抛出
+                if (firstAnnotationTypes.contains(annotationType)) {
+                    cv = c;
+                }
+            }
+            throw new GlobalException(GlobalErrorInfoEnum.DEMOEC_500000, cv.getMessage());
         }
     }
 
@@ -136,17 +152,6 @@ public class ServiceAspect {
             }
         }
         return null;
-    }
-
-    /**
-     * 获取耗时
-     *
-     * @param startTime 开始时间
-     * @return 耗时(单位毫秒) long
-     * @author : ligangwei / 2020-02-15
-     */
-    private long getTime(long startTime) {
-        return System.currentTimeMillis() - startTime;
     }
 
 }

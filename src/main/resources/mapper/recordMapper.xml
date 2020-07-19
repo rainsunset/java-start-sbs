@@ -11,7 +11,7 @@
         SELECT
         <include refid="record"/>
         FROM record
-        WHERE `status` = 'VALID'
+        WHERE 1=1
         <if test="userId != null and userId != ''">
             AND `user_id` = #{userId}
         </if>
@@ -51,12 +51,11 @@
         WHERE record_id = #{recordId}
     </update>
 
-    <update id="deleteRecords">
-        UPDATE record
-        SET `status` = 'UNVALID', updated_by = #{updatedBy}
+    <delete id="deleteRecords">
+        DELETE FROM record
         WHERE record_id IN
         <foreach collection="recordIdArray" item="recordId" open="(" close=")" separator=",">
             #{recordId}
         </foreach>
-    </update>
+    </delete>
 </mapper>
