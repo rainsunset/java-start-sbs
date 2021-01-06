@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+jdbc:
+  db1:
+    driverClassName: com.mysql.jdbc.Driver
+    validationQuery: SELECT 1 FROM DUAL
+    url: jdbc:mysql://139.159.244.233:3316/demo?allowMultiQueries=true
+    username: root
+    password: RzBeEvBJS0qM

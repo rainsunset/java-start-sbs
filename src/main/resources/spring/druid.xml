@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+       default-lazy-init="true">
+
+    <!-- 此配置维护druid的过滤器 -->
+    <bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig"
+          init-method="init">
+        <property name="dir" value="META-INF/druid/wall"/>
+        <!-- 是否允许多语句执行，默认false -->
+        <property name="multiStatementAllow" value="${druid.wall.conf.multiStatementAllow:true}"/>
+        <!-- 是否允许语句中存在注释，mysql要支持hints的话必须为true，默认false -->
+        <property name="commentAllow" value="${druid.wall.conf.commentAllow:false}"/>
+    </bean>
+    <!-- sql防御自定义配置 -->
+    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+        <!-- db类型，可参考源码方法com.alibaba.druid.wall.WallFilter.init() -->
+        <property name="dbType" value="${druid.wall.dbType:mysql}"/>
+        <property name="config" ref="wall-filter-config"/>
+        <!-- 对被认为是攻击的SQL进行log.error输出 -->
+        <property name="logViolation" value="${druid.wall.logViolation:false}"/>
+        <!-- 对被认为是攻击的SQL抛出SQLExcepton -->
+        <property name="throwException" value="${druid.wall.throwException:false}"/>
+    </bean>
+    <!-- 用于统计监控信息 -->
+    <bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+        <!-- 标记为慢查询日志的时间 -->
+        <property name="slowSqlMillis" value="${druid.stat.slowSqlMillis:1000}"/>
+        <!-- 慢查询的日志记录是否开放 -->
+        <property name="logSlowSql" value="${druid.stat.logSlowSql:true}"/>
+        <!-- 合并sql -->
+        <property name="mergeSql" value="${druid.stat.mergeSql:false}"/>
+    </bean>
+    <bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+        <!-- 结果集打印，效果不好，设置关闭 -->
+        <property name="resultSetLogEnabled" value="false"/>
+        <!-- 执行sql日志打印 -->
+        <property name="statementLogEnabled" value="${druid.log.statementSql:false}"/>
+        <property name="statementExecutableSqlLogEnable" value="${druid.log.executableSql:false}"/>
+    </bean>
+</beans>
