@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ligw.demo.mapper.RecordMapper">
+
+    <insert id="addRecord" parameterType="com.ligw.demo.model.Record">
+        INSERT INTO record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="userId != null">
+                    user_id,
+                </if>
+                <if test="num != null">
+                    num,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="userId != null">
+                    #{userId},
+                </if>
+                <if test="num != null">
+                    #{num},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateRecordById" parameterType="com.ligw.demo.model.Record">
+        update record
+        <trim prefix="set" suffixOverrides=",">
+                <if test="userId != null">
+                    user_id =#{userId},
+                </if>
+                <if test="num != null">
+                    num =#{num},
+                </if>
+        </trim>
+        where record_id = #{recordId}
+    </update>
+
+    <select id="selectRecordList" parameterType="java.util.Map"
+            resultType="com.ligw.demo.model.Record">
+        select
+            user_id userId,
+            num num,
+        record_id recordId
+        from record
+        WHERE
+        1=1
+        <if test="recordId != null">
+            and record_id = #{recordId}
+        </if>
+        <if test="userId != null">
+            and user_id like #{userId}
+        </if>
+        <if test="num != null">
+            and num = #{num}
+        </if>
+        ORDER BY record_id ASC
+    </select>
+
+    <delete id="delRecordById" parameterType="java.lang.Integer">
+        DELETE FROM  record
+        where
+        record_id = #{recordId}
+    </delete>
+
+</mapper>

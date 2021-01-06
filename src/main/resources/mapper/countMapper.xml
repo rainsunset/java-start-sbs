@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ligw.demo.mapper.CountMapper">
+
+    <insert id="addCount" parameterType="com.ligw.demo.model.Count">
+        INSERT INTO count
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            user_id,
+                <if test="numCount != null">
+                    num_count,
+                </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            #{userId},
+                <if test="numCount != null">
+                    #{numCount},
+                </if>
+        </trim>
+    </insert>
+
+    <update id="updateCountById" parameterType="com.ligw.demo.model.Count">
+        update count
+        <trim prefix="set" suffixOverrides=",">
+                <if test="numCount != null">
+                    num_count =#{numCount},
+                </if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <select id="selectCountList" parameterType="java.util.Map"
+            resultType="com.ligw.demo.model.Count">
+        select
+            num_count numCount,
+        user_id userId
+        from count
+        WHERE
+        1=1
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="numCount != null">
+            and num_count = #{numCount}
+        </if>
+        ORDER BY user_id ASC
+    </select>
+
+    <delete id="delCountById" parameterType="java.lang.String">
+        DELETE FROM  count
+        where
+        user_id = #{userId}
+    </delete>
+
+</mapper>
