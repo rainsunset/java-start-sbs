@@ -1,31 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.rainsunset.start</groupId>
-    <artifactId>java-start-sbs</artifactId>
+    <groupId>com.rainsunset</groupId>
+    <artifactId>java-start</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <description>Java Start Template With SpringBoot And Mybatis </description>
 
-    <!--版本配置管理-->
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <!--构建信息-->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <druid.version>1.1.21</druid.version>
-        <mybatis-sb-starter.version>2.1.1</mybatis-sb-starter.version>
-        <mysql-connector-java.version>5.1.44</mysql-connector-java.version>
-        <swagger2.version>2.9.2</swagger2.version>
-        <joda-time.version>2.10</joda-time.version>
-        <lombok.version>1.18.10</lombok.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <xxl-job.version>2.1.0</xxl-job.version>
+        <swagger.version>2.9.2</swagger.version>
+        <javacore.version>0.3.2</javacore.version>
     </properties>
 
+    <!-- 继承spring-boot父包 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -33,93 +24,200 @@
     </parent>
 
     <dependencies>
-        <!-- Spring boot 核心web 使用tomcat容器-->
+        <!-- cmbi base -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>cmbi-commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <!-- cmbi javacore公共包 -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>javacore-common</artifactId>
+            <version>${javacore.version}</version>
+        </dependency>
+        <!-- cmbi javacore 缓存工具 -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>javacore-cache</artifactId>
+            <version>${javacore.version}</version>
+        </dependency>
+        <!-- cmbi javacore http工具 -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>javacore-http</artifactId>
+            <version>${javacore.version}</version>
+        </dependency>
+        <!-- cmbi javacore prometheus上报工具 -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>javacore-prometheus</artifactId>
+            <version>${javacore.version}</version>
+        </dependency>
+        <!-- cmbi javacore 消息工具 -->
+        <dependency>
+            <groupId>com.cmbi</groupId>
+            <artifactId>javacore-message</artifactId>
+            <version>${javacore.version}</version>
+        </dependency>
+        <!-- web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <!-- 测试 -->
+        <!-- Jetty Container -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-jetty</artifactId>
         </dependency>
-        <!-- aop -->
+        <!-- servlet-api -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
         </dependency>
         <!-- 参数校验 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
-        <!-- mybatis -->
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis-sb-starter.version}</version>
-        </dependency>
-        <!-- MySql数据库驱动 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
-        </dependency>
-        <!-- druid阿里巴巴数据库连接池 -->
+        <!-- DB -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
+            <version>1.1.20</version>
         </dependency>
-        <!-- swagger2 start -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.38</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <!--  监控  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <!-- Test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Aop -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+        </dependency>
+        <!-- gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <!-- 一般用于加解密，处理AES/CBC/PKCS7Padding -->
+        <!--<dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.47</version>
+        </dependency>-->
+        <!-- cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <!-- guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <!-- guava 20.0版本，兼容能力最好 -->
+            <version>20.0</version>
+        </dependency>
+        <!-- swagger2-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger2.version}</version>
+            <version>${swagger.version}</version>
         </dependency>
+        <!-- swagger2-UI-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger2.version}</version>
+            <version>${swagger.version}</version>
         </dependency>
-        <!--解决接口将Sting转Date-->
+        <!-- XXL-JOB -->
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>${joda-time.version}</version>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job.version}</version>
         </dependency>
-        <!-- swagger2 end -->
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <!-- spring-kafka -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
         </dependency>
     </dependencies>
 
+
     <build>
+        <finalName>${project.artifactId}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <layers>
+                        <enabled>true</enabled>
+                    </layers>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
             </plugin>
         </plugins>
-
-        <!--静态文件配置-->
-        <resources>
-            <!--表示把resources目录下的有关xml文件,properties文件编译/打包的时候放在resource目录下-->
-            <!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉。 -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>**/*.xml</include>
-                    <include>*.yml</include>
-                    <include>*.xml</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
 </project>

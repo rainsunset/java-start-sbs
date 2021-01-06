@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<!-- ==================== 控制台输出 ===================== -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%date] [%level] [%logger:%line] [%thread] traceLogid:[%X{TRACE_LOG_ID}] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<logger name="org.springframework.beans" level="WARN"/>
+	<logger name="springfox.documentation" level="WARN"/>
+	<logger name="org.springframework.boot.web.filter.OrderedRequestContextFilter" level="INFO"/>
+	<!-- kafka debug日志太多，限制输出INFO级别以上 -->
+	<logger name="org.apache.kafka.clients" level="INFO"/>
+	<logger name="org.springframework.kafka.listener" level="INFO"/>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="stdout" />
+	</root>
+
+</configuration>

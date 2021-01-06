@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/data/jpa
+       http://www.springframework.org/schema/data/jpa/spring-jpa.xsd"
+       default-lazy-init="true">
+
+    <!-- 记录日志信息 -->
+    <bean id="dataSource2" parent="baseDatasource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.common.driverClassName}"/>
+        <!-- 用来检测连接是否有效的sql(druid必须配置)-->
+        <property name="validationQuery" value="${jdbc.common.validationQuery}"/>
+        <property name="url" value="${jdbc.db2.url}"/>
+        <property name="username" value="${jdbc.db2.username}"/>
+        <property name="password" value="${jdbc.db2.password}"/>
+    </bean>
+
+    <!-- 定义实体管理器工厂
+         Jpa配置   LocalContainerEntityManagerFactoryBean这个选项Spring扮演了容器的角色。完全掌管JPA -->
+    <bean id="jpaEntityManagerFactory2" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <!-- 指定数据源 -->
+        <property name="dataSource" ref="dataSource2"/>
+        <!-- 指定Jpa持久化实现厂商类,这里以Hibernate为例 -->
+        <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
+        <!-- 指定Entity实体类包路径 -->
+        <property name="packagesToScan">
+            <array>
+                <value>com.rainsunset.dal.db2.model</value>
+            </array>
+        </property>
+        <!-- 指定JPA属性；如Hibernate中指定是否显示SQL的是否显示、方言等 -->
+        <property name="jpaProperties">
+            <props>
+                <!-- 数据库方言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.NoCacheProvider</prop>
+                <prop key="hibernate.show_sql">${hibernate.sql.show}</prop>
+                <prop key="hibernate.format_sql">${hibernate.sql.format}</prop>
+                <!-- create-drop 每次都会创建一个新的表，执行完成后删除。一般在测试中使用
+                     create      每次都会创建一个新的表,一般是在测试中使用
+                     update      如果数据库中有表，不创建，没有表创建，如果映射不匹配，会自动更新表结构(只能添加)
+                     validate    校验Entity和表字段结构. 当两者不一致会报错，程序无法启动.
+                     none        不校验，启动性能最好，但Entity与表结构不一致的话，只能在运行时才能发现-->
+                <prop key="hibernate.hbm2ddl.auto">none</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager2" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="dataSource" ref="dataSource2"/>
+        <property name="entityManagerFactory" ref="jpaEntityManagerFactory2"/>
+    </bean>
+
+    <!-- 重要配置：启用扫描并自动创建代理的功能  -->
+    <jpa:repositories base-package="com.rainsunset.dal.db2.repository"
+                      transaction-manager-ref="transactionManager2"
+                      entity-manager-factory-ref="jpaEntityManagerFactory2"/>
+
+</beans>

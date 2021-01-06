@@ -1,0 +1,32 @@
+# 此配置yml为本地开发专用配置文件
+# springboot程序会先加载application.yml, 然后加载application-local.yml
+# application-local.yml可以覆盖application.yml的相同配置, 这样在本地开发中就能覆盖掉以${JDBC_DB1_URL}形式的赋值
+application.server:
+  # redis 配置，具体可参考RedisConfig配置类
+  redis:
+    # 模式：Standalone | Sentinel | Cluster
+    mode    : Cluster
+    nodes   : 192.168.99.171:7000,192.168.99.171:7001,192.168.99.171:7002,192.168.99.171:7003,192.168.99.171:7004,192.168.99.171:7005
+
+# database，多数据源：db1、db2
+jdbc:
+  db1:
+    url     : jdbc:mysql://192.168.99.171:3306/test?useAffectedRows=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: zygj
+    password: cmbi123654
+  db2:
+    url     : jdbc:mysql://192.168.99.171:3306/test?useAffectedRows=true&useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
+    username: zygj
+    password: cmbi123654
+
+# XXL-JOB
+xxl:
+  job:
+    admin:
+      # 调度中心部署跟地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。
+      # 执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
+      addresses: http://dev-task.cmbi.online/xxl-job-admin
+
+spring:
+  kafka:
+    bootstrap-servers: 192.168.99.183:9092
